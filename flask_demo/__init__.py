@@ -10,18 +10,20 @@ from . import commands
 def create_app():
     app = Flask(__name__)
 
-    # hard coded config
-    app.config['SECRET_KEY'] = 'this is a secret key'
+    from . import default_settings
+    app.config.from_object(default_settings)
 
     # load config from config file
+    #  the value of FLASK_DEMO_SETTINGS_FILE should be
+    #  the absolute path name of the config file
+    app.config.from_envvar('FLASK_DEMO_SETTINGS_FILE', True)
 
     # load config from ENV
     # when using docker-compose, EVNs are defined in docker-compose.yml
-    app.config['mysql_host'] = os.getenv('MYSQL_HOST', '127.0.0.1')
-    app.config['mysql_port'] = os.getenv('MYSQL_PORT', 3306)
-    app.config['mysql_user'] = os.getenv('MYSQL_USER', 'ga')
-    app.config['mysql_password'] = os.getenv('MYSQL_PASSWORD', '4t9wegcvbYSd')
-    app.config['mysql_database'] = os.getenv('MYSQL_DATABASE', 'flask_demo')
+    # the configuration priority: ENV > config file > default settings
+    for key in dir(default_settings):
+        if key.isupper():
+            app.config[key] = os.getenv(key, app.config[key])
 
     app.register_blueprint(routes.bp, url_prefix='/')
     loginservice.init_app(app, {'flask_demo': '/signin'})

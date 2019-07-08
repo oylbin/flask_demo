@@ -1,0 +1,2 @@
+FLASK_DEMO_CONFIG_KEY1 = "value 1"
+FLASK_DEMO_CONFIG_KEY2 = "value 2"
