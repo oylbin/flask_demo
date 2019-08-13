@@ -1,4 +1,5 @@
 import os
+import logging
 from flask import Flask
 
 from . import routes
@@ -6,6 +7,13 @@ from . import routes
 from .services import loginservice
 from . import commands
 
+def init_logger(app):
+    handler = logging.FileHandler('flask.log', encoding='UTF-8')
+    handler.setLevel(logging.DEBUG)
+    logging_format = logging.Formatter(
+            '%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s')
+    handler.setFormatter(logging_format)
+    app.logger.addHandler(handler)
 
 def create_app():
     app = Flask(__name__)
@@ -25,6 +33,7 @@ def create_app():
         if key.isupper():
             app.config[key] = os.getenv(key, app.config[key])
 
+    init_logger(app)
     app.register_blueprint(routes.bp, url_prefix='/')
     loginservice.init_app(app, {'flask_demo': '/signin'})
     commands.init_commands(app)
