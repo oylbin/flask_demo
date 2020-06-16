@@ -33,6 +33,9 @@ def create_app():
         if key.isupper():
             app.config[key] = os.getenv(key, app.config[key])
 
+    # secret key for session
+    app.secret_key = app.config['FLASK_DEMO_SECRET_KEY']
+
     init_logger(app)
     app.register_blueprint(routes.bp, url_prefix='/')
     loginservice.init_app(app, {'flask_demo': '/signin'})

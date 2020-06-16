@@ -18,10 +18,15 @@ run command
 	export FLASK_DEMO_SETTINGS_FILE=`pwd`/local_settings.py
 	python3 -m flask create --project X Y
 
-
 # Deployment
 
 	export FLASK_ENV=production
 	export FLASK_APP=flask_demo
 	export FLASK_DEMO_SETTINGS_FILE=/path/to/production_settings.py
 	python3 -m flask run -h 0.0.0.0 -p 80
+
+# Run in docker
+
+    docker build -t flask_demo:latest .
+    docker run --rm --name flask_demo -p 8080:80 flask_demo:latest
+

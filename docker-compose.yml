@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  flask_demo:
+    build: .
+    image: flask_demo:latest
+    container_name: flask_demo
+    ports:
+      - 8080:80
+  redis:
+    image: redis:4.0.14-alpine
+    container_name: redis
+    ports:
+      - 6379:6379
+    entrypoint: ["redis-server", "--requirepass", "redis_password"]
