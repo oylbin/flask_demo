@@ -30,3 +30,15 @@ run command
     docker build -t flask_demo:latest .
     docker run --rm --name flask_demo -p 8080:80 flask_demo:latest
 
+# Things need to rename after clone as a new project:
+
+* `flask_demo` 
+  * folder name
+  * in `Dockerfile`
+  * in `docker-compose.yml`
+  * in `app.py`
+  * in `flask_demo/__init__.py`
+  * in `flask_demo/routes.py`
+* `FLASK_DEMO`
+  * in `flask_demo/__init__.py`
+  * in `flask_demo/default_settings.py`
